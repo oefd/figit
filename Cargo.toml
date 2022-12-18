@@ -1,0 +1,9 @@
+[package]
+name = "figit"
+version = "0.1.0"
+edition = "2021"
+authors = ["Terry Kerr <terry@oefd.net>"]
+
+[dependencies]
+libc = { version = "0.2" }
+mlua = { version = "0.8.6", features = ["lua54"] }
