@@ -5,8 +5,9 @@ use mlua::{Function, Lua, Table};
 mod outcome;
 mod pacman;
 
-use outcome::Outcome;
+pub use outcome::Outcome;
 
+/// Preload the `state` module on the lua instance.
 pub fn init(lua: &Lua) -> mlua::Result<()> {
     let globals = lua.globals();
     let package: Table = globals.get("package")?;

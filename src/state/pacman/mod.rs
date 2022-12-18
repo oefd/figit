@@ -29,7 +29,10 @@ fn installed() -> impl Fn(&Lua, &mut Outcome, Table) -> mlua::Result<()> {
                 outcome.changes = false;
             } else {
                 outcome.changes = true;
-                outcome.add_comment(format!("installed {:?}", newly_installed));
+                outcome.add_comment("installed packages".to_string());
+                for pkg in newly_installed.iter() {
+                    outcome.add_comment(format!("* {}", pkg));
+                }
             };
             outcome.success = true;
         } else {

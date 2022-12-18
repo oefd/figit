@@ -1,4 +1,4 @@
-use mlua::{Lua, ToLua, Value};
+use mlua::{FromLua, Lua, ToLua, Value};
 
 /// Outcome of a state application.
 pub struct Outcome {
@@ -34,5 +34,28 @@ impl<'lua> ToLua<'lua> for Outcome {
         table.set("changes", self.changes)?;
         table.set("comments", self.comments)?;
         Ok(Value::Table(table))
+    }
+}
+
+impl<'lua> FromLua<'lua> for Outcome {
+    fn from_lua(lua_value: Value<'lua>, _lua: &'lua Lua) -> mlua::Result<Self> {
+        if let Value::Table(table) = lua_value {
+            let id = table.get::<&str, Option<String>>("id")?;
+            let state = table.get::<&str, String>("state")?;
+            let success = table.get::<&str, bool>("success")?;
+            let changes = table.get::<&str, bool>("changes")?;
+            let comments = table.get::<&str, Vec<String>>("comments")?;
+            Ok(Self {
+                id,
+                state,
+                success,
+                changes,
+                comments,
+            })
+        } else {
+            Err(mlua::Error::RuntimeError(
+                "Outcome values must be a table".to_string(),
+            ))
+        }
     }
 }

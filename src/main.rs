@@ -2,6 +2,7 @@ use std::io;
 
 use mlua::Lua;
 
+mod output;
 mod state;
 mod util;
 
@@ -37,6 +38,7 @@ fn lua_init() -> mlua::Result<Lua> {
     let lua = Lua::new();
     util::init(&lua)?;
     state::init(&lua)?;
+    output::init(&lua)?;
     Ok(lua)
 }
 
